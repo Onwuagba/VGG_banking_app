@@ -25,17 +25,30 @@ def createAccount ():
                 #check if the two passwords match
                 if confirm_password != Newpassword:
                     print("Passwords do not match!")
-                    return createAccount()
+                    userInput = input("Want to try again? Y/N").lower()
+                    if userInput == "y":
+                        return createAccount()
+                    else:
+                        print("Thank you!")
                 else:
                     account[email] = {"password": password, "AccountBalance": AccountBalance}
                     print("Account successfully created.")
+                    userInput = input("Want to perform a transaction? Y/N\n:").lower()
+                    if userInput == "y":
+                        transaction()
+                    else:
+                        print("Thank you!")
             else:
                 print("Invalid password format.")
         else:
                 print("Invalid password format.")
     else:
         print("This email address already exists")
-        return createAccount()
+        userInput = input("Want to try again? Y/N").lower()
+        if userInput == "y":
+            return createAccount()
+        else:
+            print("Thank you!")
 
 
 #checkBalance function
@@ -90,17 +103,17 @@ def transfer (email):
 
 #Transaction function
 def transaction():
-    email = input("Please enter your email to begin")
+    email = input("Please enter your email to begin\n:")
     # check if user exists or not
     if email not in account :
         print("This account does not exist")
-        userSelection = input ("Do you want to create an account: Y/N")
-        if userSelection == "Y":
+        userSelection = input ("Do you want to create an account: Y/N").lower()
+        if userSelection == "y":
             createAccount()
         else:
             print("Thank you!")
     else:
-        password = input("Please enter your password  ")
+        password = input("Please enter your password\n:")
         if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
             # confirm password matches the saved password
             if password == account[email]["password"]:
