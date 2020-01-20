@@ -6,7 +6,7 @@ import re
 #Array for housing user information
 account = []
 account = {
-    "tes@tester.com": {"password": "2020", "AccountBalance": 1000.00}
+    "tes@tester.com": {"password": "2020", "AccountBalance": 1000.0}
 }
 
 #Initialise account balance
@@ -29,7 +29,6 @@ def createAccount ():
                 else:
                     account[email] = {"password": password, "AccountBalance": AccountBalance}
                     print("Account successfully created.")
-                    return Transaction()
             else:
                 print("Invalid password format.")
         else:
