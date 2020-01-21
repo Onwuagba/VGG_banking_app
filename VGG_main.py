@@ -73,7 +73,6 @@ def checkBalance(email):
 
     
 #Deposit function
-#Return balance
 def deposit(email):
     userAmount = float(input("Please enter the amount to deposit:"))
     account[email]["AccountBalance"] = account[email]["AccountBalance"] + userAmount
@@ -86,9 +85,8 @@ def deposit(email):
         print("Thank you!")
 
 
-#Deposit function
+#Withdraw function
 def withdraw (email):
-    """Withdraw funds"""
     withdrawal_amount = input("Please enter an amount to withdraw")
     userBalance = account[email]["AccountBalance"]
     #check is amount in user account is enough
@@ -105,8 +103,7 @@ def withdraw (email):
         else:
             print("Thank you!")
 
-#Deposit function
-#Return transferMsg
+#Transfer function
 def transfer (email):
     recipient = input("Please enter the recipient's account email\n:")
     if email == recipient:
