@@ -6,7 +6,7 @@ import re
 #Array for housing user information
 account = []
 account = {
-    "tes@tester.com": {"password": "2020", "AccountBalance": 1000.0}
+    "tes@tester.com": {"password": "ADMINtest2020#", "AccountBalance": 1000.0}
 }
 
 #Initialise account balance
@@ -25,9 +25,9 @@ def createAccount ():
                 #check if the two passwords match
                 if confirm_password != Newpassword:
                     print("Passwords do not match!")
-                    userInput = input("Want to try again? Y/N").lower()
+                    userInput = input("Want to try again? Y/N\n:").lower()
                     if userInput == "y":
-                        return createAccount()
+                        createAccount()
                     else:
                         print("Thank you!")
                 else:
@@ -40,11 +40,21 @@ def createAccount ():
                         print("Thank you!")
             else:
                 print("Invalid password format.")
+                userInput = input("Want to try again? Y/N\n:").lower()
+                if userInput == "y":
+                    createAccount()
+                else:
+                    print("Thank you!")
         else:
                 print("Invalid password format.")
+                userInput = input("Want to try again? Y/N\n:").lower()
+                if userInput == "y":
+                    createAccount()
+                else:
+                    print("Thank you!")
     else:
         print("This email address already exists")
-        userInput = input("Want to try again? Y/N").lower()
+        userInput = input("Want to create an account? Y/N\n:").lower()
         if userInput == "y":
             return createAccount()
         else:
@@ -55,6 +65,11 @@ def createAccount ():
 def checkBalance(email):
     userBalance = account[email]["AccountBalance"]
     print("Your current account balance is: ₦"+str(userBalance))
+    userInput = input("Want to carryout another transaction? Y/N\n:").lower()
+    if userInput == "y":
+        return transaction()
+    else:
+        print("Thank you!")
 
     
 #Deposit function
@@ -64,7 +79,11 @@ def deposit(email):
     account[email]["AccountBalance"] = account[email]["AccountBalance"] + userAmount
     newBalance = account[email]["AccountBalance"]
     print ("₦"+str(userAmount)+" has been deposited to your account\nYour new account balance is ₦"+str(newBalance))
-
+    userInput = input("Want to carryout another transaction? Y/N\n:").lower()
+    if userInput == "y":
+        return transaction()
+    else:
+        print("Thank you!")
 
 
 #Deposit function
@@ -80,26 +99,49 @@ def withdraw (email):
         account[email]["AccountBalance"] = userBalance - withdrawal_amount
         newBalance = account[email]["AccountBalance"]
         print("₦"+str(withdrawal_amount)+"has been withdrawn from your account\nYour new balance is ₦"+str(newBalance))
-        
+        userInput = input("Want to carryout another transaction? Y/N\n:").lower()
+        if userInput == "y":
+            return transaction()
+        else:
+            print("Thank you!")
 
 #Deposit function
 #Return transferMsg
 def transfer (email):
-    recipient = input("Please enter the recipient's account email")
-    transferAmount = float(input("Please enter the amount you wish to transfer"))
-    userBalance = float(account[email]["AccountBalance"])
-    if (userBalance < 1000):
-        print("Insufficient amount. Your account balance is"+str(userBalance))
-    elif( userBalance < transfer_amount):
-        print("Insufficient amount. Your account balance is"+str(userBalance))
+    recipient = input("Please enter the recipient's account email\n:")
+    if email == recipient:
+        print("Beneficiary email cannot be same as yours")
+        userInput = input("Want to carryout another transaction? Y/N\n:").lower()
+        if userInput == "y":
+            return transaction()
+        else:
+            print("Thank you!")
+    elif recipient not in account:
+        print("Beneficiary does not exists")
+        userInput = input("Want to carryout another transaction? Y/N\n:").lower()
+        if userInput == "y":
+            return transaction()
+        else:
+            print("Thank you!")
     else:
-        account[email]["AccountBalance"] = userBalance - transferAmount
-        newBalance = account[email]["AccountBalance"]
-        #add to recipients account
-        account[recipient]["AccountBalance"] = account[recipient]["AccountBalance"] + transferAmount
-        recipientBalance = account[recipient]["AccountBalance"]
-        print("₦"+str(transferAmount)+"has been successfully transferred to "+recipient+" \n Your current balance is ₦"+str(newBalance))
-
+        transferAmount = float(input("Please enter the amount you wish to transfer\n:"))
+        userBalance = float(account[email]["AccountBalance"])
+        if (userBalance < 1000):
+            print("Insufficient amount. Your account balance is"+str(userBalance))
+        elif( userBalance < transferAmount):
+            print("Insufficient amount. Your account balance is"+str(userBalance))
+        else:
+            account[email]["AccountBalance"] = userBalance - transferAmount
+            newBalance = account[email]["AccountBalance"]
+            #add to recipients account
+            account[recipient]["AccountBalance"] = account[recipient]["AccountBalance"] + transferAmount
+            recipientBalance = account[recipient]["AccountBalance"]
+            print("₦"+str(transferAmount)+" has been successfully transferred to "+recipient+" \n Your current balance is ₦"+str(newBalance))
+            userInput = input("Want to carryout another transaction? Y/N\n:").lower()
+            if userInput == "y":
+                return transaction()
+            else:
+                print("Thank you!")
 
 #Transaction function
 def transaction():
@@ -107,7 +149,7 @@ def transaction():
     # check if user exists or not
     if email not in account :
         print("This account does not exist")
-        userSelection = input ("Do you want to create an account: Y/N").lower()
+        userSelection = input ("Do you want to create an account: Y/N\n:").lower()
         if userSelection == "y":
             createAccount()
         else:
@@ -135,9 +177,18 @@ def transaction():
 
             else:
                 print("Incorrect Password. Please try again")
-                createAccount()
+                userSelection = input ("Do you want to create an account: Y/N").lower()
+                if userSelection == "y":
+                    createAccount()
+                else:
+                    print("Thank you!")
         else:
             print("Invalid password.")
+            userSelection = input ("Do you want to create an account: Y/N").lower()
+            if userSelection == "y":
+                createAccount()
+            else:
+                print("Thank you!")
 
 print ("Welcome!\nKindly enter the number to the corresponding function you want to perform:")
 userInput = input("Press 1 to Create Account\nPress 2 to Begin a Transaction\n:")
@@ -146,8 +197,8 @@ if int(userInput) == 1:
 elif int(userInput) == 2:
     transaction()
 else:
-    print ("Invalid input")
-    quit()
+    print ("Invalid input. Please try again later.")
+    
         
     
 
